@@ -1,9 +1,13 @@
 import Router from './Router.jsx'
+import {useStateContext} from "./context/ContextProvider.jsx";
 
 function App() {
-
+  
   return (
-    <Router />
+    <div>
+      <Router />
+    </div>
+    
   )
 }
 

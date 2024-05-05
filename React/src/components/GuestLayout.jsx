@@ -11,7 +11,7 @@ function GuestLayout() {
   }
     return (
         <div>
-            <div>Guest layout</div>
+            {/* <div>Guest layout</div> */}
             <Outlet />
             
             {notification &&
