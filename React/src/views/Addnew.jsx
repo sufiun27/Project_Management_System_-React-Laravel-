@@ -4,14 +4,14 @@ import axiosClient from '../axios-clint';
 import {useStateContext} from '../context/ContextProvider';
 import { ArrowRight } from 'lucide-react'
 
-function Signup() {
+function Addnew() {
 
     const nameRef = createRef()
     const emailRef = createRef()
     const passwordRef = createRef()
     const passwordConfirmationRef = createRef()
 
-    const {setUser, setToken} = useStateContext()
+    const {setUser, setToken, setNotification, notification} = useStateContext()
     const [errors, setErrors] = useState(null)
 
     const onSubmit = (e)=>{
@@ -26,8 +26,15 @@ function Signup() {
     
     axiosClient.post('/signup', payload)
       .then(({data}) => {
-        setUser(data.user)
-        setToken(data.token);
+        // setUser(data.user)
+        // setToken(data.token);
+        setNotification('Add new user Successfully')
+        nameRef.current.value = null
+        emailRef.current.value = null
+        passwordRef.current.value = null
+        passwordConfirmationRef.current.value= null
+
+
       })
       .catch(err => {
         const response = err.response;
@@ -39,7 +46,8 @@ function Signup() {
 
     return (
         <>
-        <section>
+
+<section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <div className="mb-2 flex justify-center">
@@ -147,15 +155,34 @@ function Signup() {
                   Create Account <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
-              <p>Back to <Link className='text-blue-500' to="/login">login</Link> </p>
             </div>
           </form>
           
         </div>
       </div>
     </section>
+
+
+
+
+        {/* <form onSubmit={onSubmit}>
+          <h1 className="title">Signup for Free</h1>
+          {errors &&
+            <div className="alert">
+              {Object.keys(errors).map(key => (
+                <p key={key}>{errors[key][0]}</p>
+              ))}
+            </div>
+          }
+          <input ref={nameRef} type="text" placeholder="Full Name"/>
+          <input ref={emailRef} type="email" placeholder="Email Address"/>
+          <input ref={passwordRef} type="password" placeholder="Password"/>
+          <input ref={passwordConfirmationRef} type="password" placeholder="Repeat Password"/>
+          <button className="btn btn-block">Signup</button>
+          
+        </form> */}
         </>
     )
 }
 
-export default Signup
+export default Addnew

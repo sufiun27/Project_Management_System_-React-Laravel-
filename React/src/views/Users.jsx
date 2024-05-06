@@ -2,8 +2,15 @@
 import axiosClient from '../axios-clint';
 import { useState, useEffect } from 'react';
 import {useStateContext} from "../context/ContextProvider.jsx";
+import { Link } from 'react-router-dom';
+
 
 const UserTable = ({ users, meta, onPageChange }) => {
+  
+  const addnewuser = ()=>{
+    history.push('/addnew');
+  }
+
     return (
         <div>
           <section className="mx-auto w-full max-w-7xl px-4 py-4">
@@ -19,8 +26,9 @@ const UserTable = ({ users, meta, onPageChange }) => {
       <button
         type="button"
         className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+        // onClick={addnewuser}
       >
-        Add new employee
+        <Link to="/addnew">Add new employee</Link>
       </button>
     </div>
   </div>
@@ -98,9 +106,9 @@ const UserTable = ({ users, meta, onPageChange }) => {
                 
                
                 <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium">
-                  <a href="#" className="text-gray-700">
+                  <Link to={`/edituser/${user.id}`} className="text-gray-700">
                     Edit
-                  </a>
+                  </Link>
                 </td>
               
               </tr>
@@ -113,7 +121,7 @@ const UserTable = ({ users, meta, onPageChange }) => {
   </div>
   <div className="flex items-center justify-center pt-6">
   {meta.links && meta.links.map((link, index) => (
-            <a key={index} className={`${link.active ? 'bg-green-500' : ''} mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105`}  
+            <a key={index} className={`${link.active ? 'bg-green-100' : ''} mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105`}  
             onClick={() => onPageChange(link.url)}>
             {link.label === '&laquo; Previous' ? '«' : link.label === 'Next &raquo;' ? '»' : link.label}
               </a>

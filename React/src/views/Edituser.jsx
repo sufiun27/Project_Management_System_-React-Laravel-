@@ -1,18 +1,44 @@
-import {Link} from 'react-router-dom';
-import { useState, createRef } from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import { useState, createRef, useEffect } from 'react';
 import axiosClient from '../axios-clint';
 import {useStateContext} from '../context/ContextProvider';
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Eraser } from 'lucide-react'
+import { useParams } from 'react-router-dom';
 
-function Signup() {
+function Edituser() {
+
+    const { userId } = useParams();
+    const [user, setUser] = useState({})
 
     const nameRef = createRef()
     const emailRef = createRef()
     const passwordRef = createRef()
     const passwordConfirmationRef = createRef()
 
-    const {setUser, setToken} = useStateContext()
+    const {setNotification, notification} = useStateContext()
     const [errors, setErrors] = useState(null)
+
+    useEffect(()=>{
+      axiosClient.get(`/user/${userId}`)
+      .then(({data}) => {
+        const cuser =  data.data;
+        
+        setNotification('User load Successfully')
+        nameRef.current.value = cuser.name
+        emailRef.current.value = cuser.email
+        passwordRef.current.value = cuser.password
+        passwordConfirmationRef.current.value= cuser.password
+
+
+      })
+      .catch(err => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          setErrors(response.data.errors)
+        }
+      })
+    },[])
+
 
     const onSubmit = (e)=>{
         e.preventDefault();
@@ -24,10 +50,25 @@ function Signup() {
             password_confirmation: passwordConfirmationRef.current.value,
           }
     
-    axiosClient.post('/signup', payload)
+    axiosClient.put(`/user/${userId}`, payload)
       .then(({data}) => {
-        setUser(data.user)
-        setToken(data.token);
+        setNotification('Upload Successfully')
+      })
+      .catch(err => {
+        const response = err.response;
+        if (response && response.status === 422) {
+          setErrors(response.data.errors)
+        }
+      })
+    }
+
+    const navigate = useNavigate();
+    const userDelete = ()=>{
+     
+      axiosClient.delete(`/user/${userId}`)
+      .then(({data}) => {
+        setNotification('Delete Successfully')
+        navigate("/users");
       })
       .catch(err => {
         const response = err.response;
@@ -39,7 +80,8 @@ function Signup() {
 
     return (
         <>
-        <section>
+          {/* <div className='bg-green-500'>{userId}</div> */}
+<section>
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           <div className="mb-2 flex justify-center">
@@ -102,6 +144,7 @@ function Signup() {
                     placeholder="Email"
                     id="email"
                     ref={emailRef}
+                    readOnly
                   ></input>
                 </div>
               </div>
@@ -144,18 +187,23 @@ function Signup() {
                   
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
-                  Create Account <ArrowRight className="ml-2" size={16} />
+                  Update Account <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
-              <p>Back to <Link className='text-blue-500' to="/login">login</Link> </p>
             </div>
           </form>
+
+          <button
+          onClick={userDelete}
+          className="mt-5 inline-flex w-full items-center justify-center rounded-md bg-red-700 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+          >Delete Account <Eraser /> </button>
           
         </div>
       </div>
     </section>
+
         </>
     )
 }
 
-export default Signup
+export default Edituser

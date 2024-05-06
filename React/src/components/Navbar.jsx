@@ -8,7 +8,7 @@ import { useStateContext } from '../context/ContextProvider'
 const menuItems = [
   {
     name: 'Home',
-    href: '#',
+    href: '/users',
   },
   {
     name: 'About',

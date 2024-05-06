@@ -15,14 +15,16 @@ function DefaultLayout() {
         <div>
             <Navbar />
 
+            {notification &&
+            <div className='flex justify-end '>
+                <p className='bg-green-500 p-5 rounded-md m-5'>{notification}</p>
+            </div>
+            }
+
             {/* <div>Default layout</div> */}
             <Outlet />
             
-            {notification &&
-            <div className="notification">
-                {notification}
-            </div>
-            }
+            
         </div>
     )
 }
