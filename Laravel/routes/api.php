@@ -14,19 +14,20 @@ Route::get('/user', function (Request $request) {
 Route::get('/students', [StudentController::class, 'index'])->name('studenst');
 Route::post('/students', [StudentController::class, 'store'])->name('store');
 
+
+
+
+
+//User////////////////////////////////////////////////////////////////////////////////////////
+
+//unauthorized
 Route::post('/signup', [AuthController::class, 'signup'])->name('signup');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-
-
-
+//Authorized
 Route::middleware('auth:sanctum')->group(function () {
-
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-
-    });
-Route::get('/users', [UserController::class, 'index'])->name('users');
-Route::get('/user/{id}', [UserController::class, 'show'])->name('show');
-Route::put('/user/{id}', [UserController::class, 'update'])->name('update');
-Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('destroy');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::get('/user/{id}', [UserController::class, 'show'])->name('show');
+    Route::put('/user/{id}', [UserController::class, 'update'])->name('update');
+    Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('destroy');
+});
