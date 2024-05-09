@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\User;
 class TaskController extends Controller
 {
     /**
@@ -29,19 +30,22 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'priority' => 'required|in:Low,Medium,High', // Use the 'in' rule to validate priority values
+            'status' => 'required|in:New,In_progress,Done', // Use the 'in' rule to validate status values
+            'comment' => 'nullable|string',
+            'due_date' => 'nullable|date',
+            'creator_user_id' => 'required|exists:users,id',
+            'assigned_user_id' => 'required|exists:users,id',
+        ]);
+        $task = Task::create($request->all());
+        return new TaskResource($task);
     }
 
     /**
@@ -49,23 +53,29 @@ class TaskController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $task = Task::find($id);
+        return new TaskResource($task);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'priority' => 'required|in:Low,Medium,High',
+            'status' => 'required|in:New,In_progress,Done',
+            'comment' => 'nullable|string',
+            'due_date' => 'nullable|date',
+            'creator_user_id' => 'required|exists:users,id',
+            'assigned_user_id' => 'required|exists:users,id',
+        ]);
+        $task = Task::find($id);
+        $task->update($request->all());
+        return new TaskResource($task);
     }
 
     /**
