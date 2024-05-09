@@ -124,6 +124,7 @@ const UserTable = ({ users, meta, onPageChange }) => {
             <a key={index} className={`${link.active ? 'bg-green-100' : ''} mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105`}  
             onClick={() => onPageChange(link.url)}>
             {link.label === '&laquo; Previous' ? '«' : link.label === 'Next &raquo;' ? '»' : link.label}
+            {console.log(link.url)}
               </a>
         ))}
   </div>
@@ -135,20 +136,20 @@ const UserTable = ({ users, meta, onPageChange }) => {
     );
   };
 
-  const Pagination = ({ meta, onPageChange }) => {
-    return (
-      <ul className="flex items-center justify-center pt-6">
-        {meta.links && meta.links.map((link, index) => (
-          <li key={index}>
-            <a className={`${link.active ? 'bg-green-500' : ''} mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105`}  
-            onClick={() => onPageChange(link.url)}>
-            {link.label === '&laquo; Previous' ? '«' : link.label === 'Next &raquo;' ? '»' : link.label}
-              </a>
-          </li>
-        ))}
-      </ul>
-    );
-  };
+  // const Pagination = ({ meta, onPageChange }) => {
+  //   return (
+  //     <ul className="flex items-center justify-center pt-6">
+  //       {meta.links && meta.links.map((link, index) => (
+  //         <li key={index}>
+  //           <a className={`${link.active ? 'bg-green-500' : ''} mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105`}  
+  //           onClick={() => onPageChange(link.url)}>
+  //           {link.label === '&laquo; Previous' ? '«' : link.label === 'Next &raquo;' ? '»' : link.label}
+  //             </a>
+  //         </li>
+  //       ))}
+  //     </ul>
+  //   );
+  // };
 
 
  
@@ -182,11 +183,11 @@ function Users() {
 
     const onPageChange = (url) => {
         // Fetch data for the new page when pagination link is clicked
-        fetch(url)
-          .then(response => response.json())
-          .then(data => {
-            setUsers(data);
-            setMeta(data.meta);
+        axiosClient.get(url)
+          .then((data) => {
+            const pdata = data.data;
+            setUsers(pdata);
+            setMeta(pdata.meta);
           })
           .catch(error => console.error('Error fetching data:', error));
       };

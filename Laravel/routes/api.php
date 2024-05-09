@@ -25,7 +25,13 @@ Route::post('/students', [StudentController::class, 'store'])->name('store');
 Route::post('/signup', [AuthController::class, 'signup'])->name('signup');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+
+
+
+Route::get('/tasks/userassinedtask/{id}', [TaskController::class, 'userAssinedTasks']);
+Route::get('/tasks/usertask/{id}', [TaskController::class, 'userTasks']);
 Route::resource('tasks', TaskController::class);
+
 
 //Authorized
 Route::middleware('auth:sanctum')->group(function () {
@@ -35,3 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/{id}', [UserController::class, 'update'])->name('update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('destroy');
 });
+
+
+

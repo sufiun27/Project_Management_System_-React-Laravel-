@@ -16,6 +16,18 @@ class TaskController extends Controller
         return TaskResource::collection($tasks);
     }
 
+    public function userTasks($id)
+    {
+        $tasks = Task::where('assigned_user_id', $id)->get();
+        return TaskResource::collection($tasks);
+    }
+
+    public function userAssinedTasks($id)
+    {
+        $tasks = Task::where('creator_user_id', $id)->get();
+        return TaskResource::collection($tasks);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
