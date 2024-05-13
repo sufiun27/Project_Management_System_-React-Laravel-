@@ -6,6 +6,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProjectController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,11 +28,16 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
 
-
+////////////////////////
+/// Task
+////////////////////////
 Route::get('/tasks/userassinedtask/{id}', [TaskController::class, 'userAssinedTasks']);
 Route::get('/tasks/usertask/{id}', [TaskController::class, 'userTasks']);
 Route::resource('tasks', TaskController::class);
-
+////////////////////////
+/// Projects
+////////////////////////
+Route::resource('projects', ProjectController::class);
 
 //Authorized
 Route::middleware('auth:sanctum')->group(function () {
@@ -41,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/{id}', [UserController::class, 'update'])->name('update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('destroy');
 });
+
 
 
 

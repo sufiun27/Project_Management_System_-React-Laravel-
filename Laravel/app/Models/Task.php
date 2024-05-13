@@ -9,17 +9,12 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'description',
-        'priority',
-        'status',
-        'comment',
-        'due_date',
-        'creator_user_id',
-        'assigned_user_id',
-    ];
 
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
 
     //task belongs to a user coumn creator_user_id, assigned_user_id
     public function creator()
@@ -27,6 +22,15 @@ class Task extends Model
         return $this->belongsTo(User::class, 'creator_user_id');
     }
 
+    public function getCreatorNameAttribute()
+    {
+        return $this->creator->name;
+    }
+
+    public function getAssignedUserNameAttribute()
+    {
+        return $this->assigned->name;
+    }
     public function assigned()
     {
         return $this->belongsTo(User::class, 'assigned_user_id');

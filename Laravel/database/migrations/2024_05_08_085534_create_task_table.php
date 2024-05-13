@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->references('id')->on('projects');
             $table->string('name');
             $table->text('description');
             $table->string('priority')->default('medium');
             $table->string('status');
             $table->text('comment')->nullable();
+            $table->text('replay')->nullable();
             $table->timestamp('due_date')->nullable();
             $table->foreignId('creator_user_id')->references('id')->on('users');
             $table->foreignId('assigned_user_id')->references('id')->on('users');

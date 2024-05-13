@@ -6,6 +6,7 @@ use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
+use yajra\Datatables\Datatables;
 class TaskController extends Controller
 {
     /**
@@ -13,8 +14,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
-        return TaskResource::collection($tasks);
+//        $tasks = Task::paginate(10);
+//        return TaskResource::collection($tasks);
+//
+//        //add pagination
+         $tasks = Task::paginate(10);
+         return TaskResource::collection($tasks);
+
     }
 
     public function userTasks($id)
@@ -83,6 +89,8 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $task = Task::find($id);
+        $task->delete();
+        return response()->json(null, 204);
     }
 }

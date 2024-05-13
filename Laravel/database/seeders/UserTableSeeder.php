@@ -19,7 +19,7 @@ class UserTableSeeder extends Seeder
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
-                'password' => bcrypt('password')
+                'password' => bcrypt('123')
             ]);
         }
     }
