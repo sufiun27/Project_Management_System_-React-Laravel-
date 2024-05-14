@@ -15,6 +15,7 @@ import Alltask from './views/task/Alltask'
 
 import Allproject from './views/project/Allproject'
 import Select from './views/project/Select'
+import EditProject from './views/project/Edit' 
 
 
 function Router() {
@@ -32,6 +33,7 @@ function Router() {
 
             {path:'/project', element: <Allproject />},
             {path:'/project/:projectId', element: <Select />},
+            {path:'/project/edit/:projectId', element: <EditProject />},
 
         ]},
 

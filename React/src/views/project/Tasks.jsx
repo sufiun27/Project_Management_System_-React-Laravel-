@@ -10,19 +10,15 @@ export function Table({tdata, meta, onPageChange}) {
         <section className="mx-auto w-full max-w-7xl px-4 py-4">
           <div className="flex flex-col space-y-4  md:flex-row md:items-center md:justify-between md:space-y-0">
             <div>
-              <h2 className="text-lg font-semibold">Employees</h2>
-              <p className="mt-1 text-sm text-gray-700">
-                This is a list of all employees. You can add new employees, edit or delete existing
-                ones.
-              </p>
+              <h2 className="text-lg font-semibold">Tasks -  
+              <span className="mt-1 text-sm text-gray-700">
+                list of all corespondent project tasks. 
+              </span>
+              </h2>
+              
             </div>
             <div>
-              <button
-                type="button"
-                className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-              >
-                Add new employee
-              </button>
+              
             </div>
           </div>
           <div className="mt-6 flex flex-col">
@@ -72,12 +68,15 @@ export function Table({tdata, meta, onPageChange}) {
                         Created at
                         </th>
                         <th scope="col" className="px-4 py-3.5 text-left text-sm font-normal text-gray-700">
-                        Total Task
+                        Assigned
                         </th>
-
-
-
-
+                        <th scope="col" className="px-4 py-3.5 text-left text-sm font-normal text-gray-700">
+                        Comment
+                        </th>
+                        <th scope="col" className="px-4 py-3.5 text-left text-sm font-normal text-gray-700">
+                        Replay
+                        </th>
+                        
                         <th scope="col" className="relative px-4 py-3.5">
                           <span className="sr-only">Edit</span>
                         </th>
@@ -126,7 +125,7 @@ export function Table({tdata, meta, onPageChange}) {
                             {tdata.due_date}
                           </td>
 
-                          <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
+                          <td className="text-wrap whitespace-nowrap px-4 py-4 text-sm text-gray-700">
                             {tdata.creator_name}
                           </td>
 
@@ -134,8 +133,16 @@ export function Table({tdata, meta, onPageChange}) {
                             {tdata.created_at}
                           </td>
 
-                          <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
-                            {tdata.total_task}
+                          <td className="text-wrap whitespace-nowrap px-4 py-4 text-sm text-gray-700">
+                            {tdata.assigned_user_name}
+                          </td>
+
+                          <td className="text-wrap whitespace-nowrap px-4 py-4 text-sm text-gray-700">
+                            {tdata.comment}
+                          </td>
+
+                          <td className="text-wrap whitespace-nowrap px-4 py-4 text-sm text-gray-700">
+                            {tdata.reply}
                           </td>
 
 
@@ -176,28 +183,31 @@ export function Table({tdata, meta, onPageChange}) {
 
 
 
-function Allproject() {
-    const [projects, setProjects] = useState([]);
+function Tasks(projectId) {
+    const [tasks, setTasks] = useState([]);
     const [meta, setMeta] = useState({});
 
-    useEffect(()=>{getProjects();},[])
+    useEffect(()=>{
+        getProjects();
+    },[])
 
     const getProjects = ()=>{
-        axiosClient.get('/projects')
+        axiosClient.get('/projects/showTasks/'+projectId.projectId)
         .then((data)=>{
             console.log(data);
-            setProjects(data.data.data);
+            setTasks(data.data.data);
             setMeta(data.data.meta);
         }).catch((error)=>{
             console.log(error);
         })
     }
+    
     const onPageChange = (url) => {
         // Fetch data for the new page when pagination link is clicked
         axiosClient.get(url)
           .then((data) => {
             console.log(data);
-            setProjects(data.data.data);
+            setTasks(data.data.data);
             setMeta(data.data.meta);
           })
           .catch(error => console.error('Error fetching data:', error));
@@ -205,10 +215,10 @@ function Allproject() {
 
     return (
         <div>
-          { projects !== null && projects.length > 0 && meta !== null ? <Table tdata={projects} meta={meta} onPageChange={onPageChange} /> : <div className="text-center">Loding...</div>}
+            { tasks.length > 0 ? <Table tdata={tasks} meta={meta} onPageChange={onPageChange} /> : <h1>Loading...</h1>}
         </div>
 
     )
 }
 
-export default Allproject
+export default Tasks

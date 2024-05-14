@@ -41,11 +41,15 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $tasks = Task::where('project_id', $project->id)->get();
         return [
-            'project' => new ProjectResource($project),
-            'tasks' => TaskResource::collection($tasks)
+            'project' => new ProjectResource($project)
         ];
+    }
+
+    public function showTasks($id)
+    {
+        $tasks = Task::where('project_id', $id)->paginate(5);
+        return TaskResource::collection($tasks);
     }
 
     /**

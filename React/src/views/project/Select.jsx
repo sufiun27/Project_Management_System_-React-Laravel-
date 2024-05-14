@@ -3,6 +3,7 @@ import {useEffect, useState}from 'react'
 import axiosClient from '../../axios-clint';
 import {useStateContext} from "../../context/ContextProvider.jsx";
 import { Link, useParams } from 'react-router-dom'
+import Tasks from './Tasks.jsx';
 
 export function Table({tdata}) {
     return (
@@ -142,7 +143,7 @@ export function Table({tdata}) {
 
 
                           <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium">
-                            <Link to={`/project/${tdata.id}`} className="text-gray-700">
+                            <Link to={`/project/edit/${tdata.id}`} className="text-gray-700">
                                 Edit
                             </Link>
                           </td>
@@ -155,9 +156,9 @@ export function Table({tdata}) {
             </div>
           </div>
           
-          <div className="flex items-center justify-center pt-6">
+          {/* <div className="flex items-center justify-center pt-6">
            flexbox
-          </div>
+          </div> */}
         </section>
       </>
     )
@@ -166,26 +167,29 @@ export function Table({tdata}) {
 function Select() {
     const {projectId} = useParams();
     const [project, setProject] = useState(null);
-    const [tasks, setTasks] = useState([]);
+    
 
     useEffect(()=>{getProject();},[])
 
     const getProject = ()=>{
         axiosClient.get('/projects/'+projectId)
         .then((data)=>{
-            console.log(data.data.project);
+            console.log(data);
             setProject(data.data.project);
-            setTasks(data.data.tasks);
+            
         }).catch((error)=>{
             console.log(error);
         })
     }
     return (
         <div>
-            <h1>Select project id: {projectId}</h1>
-            {/* <Table tdata={project} /> */}
             
+          
             { project !== null ? <Table tdata={project} /> : <h1>Loading...</h1>}
+
+            <hr />
+
+           { projectId && <Tasks projectId={projectId} /> } 
 
         </div>
     )

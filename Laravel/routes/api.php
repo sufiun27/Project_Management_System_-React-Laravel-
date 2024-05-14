@@ -37,6 +37,7 @@ Route::resource('tasks', TaskController::class);
 ////////////////////////
 /// Projects
 ////////////////////////
+Route::get('/projects/showTasks/{id}', [ProjectController::class, 'showTasks']);
 Route::resource('projects', ProjectController::class);
 
 //Authorized
