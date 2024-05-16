@@ -34,11 +34,16 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/tasks/userassinedtask/{id}', [TaskController::class, 'userAssinedTasks']);
 Route::get('/tasks/usertask/{id}', [TaskController::class, 'userTasks']);
 Route::resource('tasks', TaskController::class);
+
+
 ////////////////////////
 /// Projects
 ////////////////////////
+Route::middleware('auth:sanctum')->group(function () {
 Route::get('/projects/showTasks/{id}', [ProjectController::class, 'showTasks']);
 Route::resource('projects', ProjectController::class);
+});
+
 
 //Authorized
 Route::middleware('auth:sanctum')->group(function () {

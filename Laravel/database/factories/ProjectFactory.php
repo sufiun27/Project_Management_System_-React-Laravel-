@@ -23,8 +23,8 @@ class ProjectFactory extends Factory
         return [
             'name' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'priority' => $this->faker->randomElement(['low', 'medium', 'high']),
-            'status' => $this->faker->randomElement(['New', 'In_Progress', 'completed']),
+            'priority' => $this->faker->randomElement(['Low', 'Medium', 'High']),
+            'status' => $this->faker->randomElement(['New', 'In_Progress', 'Completed']),
             'creator_user_id' => $this->faker->randomElement($userIds),
             'due_date' => $this->faker->optional()->dateTime, //randome date
         ];

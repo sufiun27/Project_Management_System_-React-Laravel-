@@ -18,12 +18,13 @@ export function Table({tdata}) {
               </p>
             </div>
             <div>
-              <button
+            <Link
+                to={`/task/add/${tdata.id}` }
                 type="button"
                 className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
-                Add new employee
-              </button>
+                Add new Tasks
+              </Link>
             </div>
           </div>
           <div className="mt-6 flex flex-col">
@@ -103,7 +104,7 @@ export function Table({tdata}) {
                                 className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
                                     tdata.status === 'In_Progress' ? ' bg-yellow-600' : 
                                     tdata.status === 'New' ? 'bg-blue-300' : 
-                                    tdata.status === 'completed' ? 'bg-green-500' : ''
+                                    tdata.status === 'Completed' ? 'bg-green-500' : ''
                                 }`}
                                 >
                                 {tdata.status}
@@ -114,9 +115,9 @@ export function Table({tdata}) {
                             <button
                                 type="button"
                                 className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
-                                    tdata.priority === 'high' ? ' bg-red-500' : 
-                                    tdata.priority === 'medium' ? ' bg-green-700' : 
-                                    tdata.priority === 'low' ? 'bg-blue-500' : ''
+                                    tdata.priority === 'High' ? ' bg-red-500' : 
+                                    tdata.priority === 'Medium' ? ' bg-green-700' : 
+                                    tdata.priority === 'Low' ? 'bg-blue-500' : ''
                                 }`}
                                 >
                                 {tdata.priority}

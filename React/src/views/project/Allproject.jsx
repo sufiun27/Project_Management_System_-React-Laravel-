@@ -10,19 +10,18 @@ export function Table({tdata, meta, onPageChange}) {
         <section className="mx-auto w-full max-w-7xl px-4 py-4">
           <div className="flex flex-col space-y-4  md:flex-row md:items-center md:justify-between md:space-y-0">
             <div>
-              <h2 className="text-lg font-semibold">Employees</h2>
+              <h2 className="text-lg font-semibold">Projects</h2>
               <p className="mt-1 text-sm text-gray-700">
-                This is a list of all employees. You can add new employees, edit or delete existing
-                ones.
+                This is a list of all Projects. 
               </p>
             </div>
             <div>
-              <button
+              <Link to="/project/add"
                 type="button"
                 className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
-                Add new employee
-              </button>
+                Add new projects
+              </Link>
             </div>
           </div>
           <div className="mt-6 flex flex-col">
@@ -102,7 +101,7 @@ export function Table({tdata, meta, onPageChange}) {
                                 className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
                                     tdata.status === 'In_Progress' ? ' bg-yellow-600' : 
                                     tdata.status === 'New' ? 'bg-blue-300' : 
-                                    tdata.status === 'completed' ? 'bg-green-500' : ''
+                                    tdata.status === 'completed' || tdata.status === 'Completed' ? 'bg-green-500' : ''
                                 }`}
                                 >
                                 {tdata.status}
@@ -113,9 +112,9 @@ export function Table({tdata, meta, onPageChange}) {
                             <button
                                 type="button"
                                 className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
-                                    tdata.priority === 'high' ? ' bg-red-500' : 
-                                    tdata.priority === 'medium' ? ' bg-green-700' : 
-                                    tdata.priority === 'low' ? 'bg-blue-500' : ''
+                                    tdata.priority === 'high' || tdata.priority === 'High' ? ' bg-red-500' : 
+                                    tdata.priority === 'medium' || tdata.priority === 'Medium' ? ' bg-green-700' : 
+                                    tdata.priority === 'low' || tdata.priority === 'Low' ? 'bg-blue-500' : ''
                                 }`}
                                 >
                                 {tdata.priority}

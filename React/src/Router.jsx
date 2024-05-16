@@ -12,10 +12,13 @@ import Addnew from './views/Addnew'
 import Edituser from './views/Edituser'
 
 import Alltask from './views/task/Alltask'
+import Addtask from './views/task/Add'
 
 import Allproject from './views/project/Allproject'
 import Select from './views/project/Select'
 import EditProject from './views/project/Edit' 
+import AddProject from './views/project/Add' 
+
 
 
 function Router() {
@@ -30,10 +33,13 @@ function Router() {
             {path: '/edituser/:userId', element: <Edituser />},
 
             {path:'/task', element: <Alltask />},
+            {path:'/task/add/:projectId', element: <Addtask />},
 
             {path:'/project', element: <Allproject />},
             {path:'/project/:projectId', element: <Select />},
             {path:'/project/edit/:projectId', element: <EditProject />},
+            {path:'/project/add', element: <AddProject />},
+            
 
         ]},
 

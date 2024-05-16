@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-clint";
-import { useParams, useNavigate } from "react-router-dom";
+
 import {useStateContext} from '../../context/ContextProvider';
 
-function Edit() {
+function Add() {
   const {setNotification, notification} = useStateContext();
   const [errors, setErrors] = useState(null)
-  const { projectId } = useParams();
+ 
   const [project, setProject] = useState({
     name: "",
     description: "",
@@ -19,21 +19,6 @@ function Edit() {
     total_task: "",
   });
 
-  useEffect(() => {
-    getProject();
-  }, [projectId]);
-
-  const getProject = () => {
-    axiosClient
-      .get("/projects/" + projectId)
-      .then((response) => {
-        console.log(response.data);
-        setProject(response.data.project);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,13 +30,13 @@ function Edit() {
   const handleSubmitChange = (e) => {
     e.preventDefault();
     //console.log(project);
-    updateProject();
+    soreProject();
   };
 
-  const updateProject = () => { 
+  const soreProject = () => { 
         console.log(project);
         axiosClient
-        .put(`/projects/${projectId}`, project)
+        .post(`/projects`, project)
         .then((response) => {
           console.log(response.data);
           setProject(response.data.project);
@@ -65,35 +50,9 @@ function Edit() {
           }
         });
   };
-
-  const navigate = useNavigate();
-  const handleDelete = () => {
-    axiosClient
-      .delete(`/projects/${projectId}`)
-      .then((response) => {
-        console.log(response.data);
-        setNotification(response.data.message)
-        navigate("/project");
-
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
   
   return (
     <>
-
-          <div className="flex justify-end">
-          <button
-            type="button"
-            className="mx-10 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-          onClick={handleDelete}
-          >
-            Delete
-          </button>
-          </div>
-
        <div className='bg-red-100'>
               {errors &&
                 <div className="alert">
@@ -193,7 +152,7 @@ function Edit() {
               <option value="High" className="bg-red-500">
                 High
               </option>
-              <option  value="Medium" className="bg-yellow-500">
+              <option selected value="Medium" className="bg-yellow-500">
                 Medium
               </option>
               <option value="Low" className="bg-green-500">
@@ -219,59 +178,7 @@ function Edit() {
             />
           </div>
 
-          <div className="w-full md:w-1/2">
-            <label
-              className="text-sm font-medium leading-none"
-              htmlFor="creator_name"
-            >
-              Creator Name
-            </label>
-            <input
-              className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
-              type="text"
-              disabled
-              value={project.creator_name}
-              id="creator_name"
-              name="creator_name"
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="w-full md:w-1/2">
-            <label
-              className="text-sm font-medium leading-none"
-              htmlFor="created_at"
-            >
-              Create at
-            </label>
-            <input
-              className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
-              type="datetime-local"
-              disabled
-              value={project.created_at}
-              id="created_at"
-              name="created_at"
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <div className="w-full md:w-1/2">
-            <label
-              className="text-sm font-medium leading-none"
-              htmlFor="total_task"
-            >
-              Total Task
-            </label>
-            <input
-              className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
-              type="text"
-              disabled
-              value={project.total_task}
-              id="total_task"
-              name="total_task"
-              onChange={handleInputChange}
-            />
-          </div>
+          
 
           <button
             type="submit"
@@ -280,17 +187,11 @@ function Edit() {
             submit
           </button>
         </form>
-
-        {/* DELETE          api/projects/{project} */}
-
-        
       </div>
-
-          
 
      
     </>
   );
 }
 
-export default Edit;
+export default Add;

@@ -40,14 +40,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $user = auth()->user();
         $request->validate([
+            'project_id' => 'required|exists:projects,id',
             'name' => 'required',
             'description' => 'required',
             'priority' => 'required|in:Low,Medium,High', // Use the 'in' rule to validate priority values
-            'status' => 'required|in:New,In_progress,Done', // Use the 'in' rule to validate status values
+            'status' => 'required|in:New,In_progress,Completed', // Use the 'in' rule to validate status values
             'comment' => 'nullable|string',
-            'due_date' => 'nullable|date',
-            'creator_user_id' => 'required|exists:users,id',
+            'due_date' => 'nullable|date|after:today',
+            'creator_user_id' => $user->id,
             'assigned_user_id' => 'required|exists:users,id',
         ]);
         $task = Task::create($request->all());
