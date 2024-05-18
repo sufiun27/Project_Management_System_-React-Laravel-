@@ -2,13 +2,19 @@ import { useEffect, useState } from "react";
 import axiosClient from "../../axios-clint";
 import { useParams } from "react-router-dom";
 import {useStateContext} from '../../context/ContextProvider';
+import Select from "react-select";
 
 function Add() {
-  const { projectId } = useParams();
+  const { taskId } = useParams();
   const {setNotification, notification} = useStateContext();
   const [errors, setErrors] = useState(null)
+  const [user, setUser] = useState({
+    value: "",
+    label: "",
+  });
+  const [searchUser, setSearchUser] = useState("");
  
-  const [project, setProject] = useState({
+  const [task, setTask] = useState({
     name: "",
     description: "",
     status: "",
@@ -17,44 +23,118 @@ function Add() {
     creator_user_id: "",
     creator_name: "",
     created_at: "",
-    total_task: "",
+    assigned_user_name: "",
+    comment: "",
+    reply: "",
+    
   });
 
+  
+  const [selectedOptionCreatedBy, setSelectedOptionCreatedBy] = useState(null);
+  const [selectedOptionAssignedTo, setSelectedOptionAssignedTo] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProject((prevProject) => ({
-      ...prevProject,
+    setTask((prevtask) => ({
+      ...prevtask,
       [name]: value,
     }));
   };
   const handleSubmitChange = (e) => {
     e.preventDefault();
-    //console.log(project);
-    soreProject();
+    console.log(task);
+    
   };
 
-  const soreProject = () => { 
-        console.log(project);
-        axiosClient
-        .post(`/projects`, project)
-        .then((response) => {
-          console.log(response.data);
-          setProject(response.data.project);
-          setNotification(response.data.message)
-        })
-        .catch((err) => {
-          console.log(err);
-          const response = err.response;
-          if (response && response.status === 422) {
-            setErrors(response.data.errors)
-          }
-        });
-  };
+  useEffect(() => {
+    getTask();
+    getUser();
+  }, []);
+
+  const getTask = () => {
+    axiosClient
+      .get(`/tasks/${taskId}`)
+      .then((response) => {
+        //console.log(response);
+        setTask(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const getUser = () => {
+    axiosClient
+      .get(`/userall`)
+      .then((response) => {
+        setUser(response.data);
+       // console.log(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    if (user.length > 0) {
+        const defaultUser = user.find(user => user.value === task.creator_user_id);
+        setSelectedOptionCreatedBy(defaultUser);
+    }
+}, [user]);
+
+  const hangleSelectChangeCreatedBy = (selectedOption) => {
+    setSelectedOptionCreatedBy(selectedOption);
+   // console.log(`Option selected:`, selectedOption);
+   setTask((prevtask) => ({
+    ...prevtask,
+    ["creator_user_id"]: selectedOption.value,
+  }));
+  }
+
+  useEffect(() => {
+    if (user.length > 0) {
+        const defaultUser = user.find(user => user.value === task.assigned_user_id);
+        setSelectedOptionAssignedTo(defaultUser);
+    }
+}, [user]);
+
+  const hangleSelectChangeAssignedTo = (selectedOption) => {
+    setSelectedOptionAssignedTo(selectedOption);
+    setTask((prevtask) => ({
+      ...prevtask,
+      ["assigned_user_id"]: selectedOption.value,
+    }));
+  //  console.log(`Option selected:`, selectedOption);
+  }
+
+
+
+  
+ 
+  // const soreTask = () => { 
+  //       console.log(task);
+  //       axiosClient
+  //       .post(`/tasks`, task)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         settask(response.data.task);
+  //         setNotification(response.data.message)
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         const response = err.response;
+  //         if (response && response.status === 422) {
+  //           setErrors(response.data.errors)
+  //         }
+  //       });
+  //};
   
   return (
     <>
-    <h1>{projectId}</h1>
+
+    {/* <pre>{JSON.stringify(task)}</pre> */}
+    
+    <h1>{taskId}</h1>
        <div className='bg-red-100'>
               {errors &&
                 <div className="alert">
@@ -74,7 +154,7 @@ function Add() {
             <input
               className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
               type="text"
-              value={project.name}
+              value={task.name}
               id="name"
               name="name"
               onChange={handleInputChange}
@@ -90,7 +170,7 @@ function Add() {
             </label>
             <textarea
               className="flex h-32 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
-              value={project.description}
+              value={task.description}
               id="description"
               name="description"
               onChange={handleInputChange}
@@ -107,13 +187,13 @@ function Add() {
             <select
               className={
                 "flex h-10 w-full rounded-md border border-black/30  px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1" +
-                (project.status === "New"
+                (task.status === "New"
                   ? " bg-blue-300"
-                  : project.status === "In_Progress"
+                  : task.status === "In_Progress"
                   ? " bg-yellow-300"
                   : " bg-green-300")
               }
-              value={project.status}
+              value={task.status}
               id="status"
               name="status"
               onChange={handleInputChange}
@@ -140,13 +220,13 @@ function Add() {
             <select
               className={
                 "flex h-10 w-full rounded-md border border-black/30  px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1" +
-                (project.priority === "low"
+                (task.priority === "low"
                   ? " bg-blue-300"
-                  : project.priority === "medium"
+                  : task.priority === "medium"
                   ? " bg-yellow-300"
                   : " bg-red-300")
               }
-              value={project.priority}
+              value={task.priority}
               id="status"
               name="priority"
               onChange={handleInputChange}
@@ -172,15 +252,82 @@ function Add() {
             </label>
             <input
               className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
+              readOnly
               type="datetime-local"
-              value={project.due_date}
+              value={task.due_date}
               id="due_date"
               name="due_date"
               onChange={handleInputChange}
             />
           </div>
 
-          
+          <div className="w-full md:w-1/2">
+            <label
+              className="text-sm font-medium leading-none"
+              htmlFor="description"
+            >
+              Comment
+            </label>
+            <textarea
+              className="flex h-32 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
+              value={task.comment}
+              id="comment"
+              name="comment"
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="w-full md:w-1/2">
+            <label
+              className="text-sm font-medium leading-none"
+              htmlFor="description"
+            >
+              Reply
+            </label>
+            <textarea
+              className="flex h-32 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1"
+              value={task.reply}
+              id="reply"
+              name="reply"
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="w-full md:w-1/2">
+            <label
+              className="text-sm font-medium leading-none"
+              htmlFor="status"
+            >
+              Created By
+            </label>
+
+            <Select
+              value={selectedOptionCreatedBy}
+              options={user}
+              isClearable
+              isSearchable
+              onChange={hangleSelectChangeCreatedBy}
+            />
+            
+          </div>
+
+          <div className="w-full md:w-1/2">
+            <label
+              className="text-sm font-medium leading-none"
+              htmlFor="status"
+            >
+              Assigned To
+            </label>
+
+            <Select
+              value={selectedOptionAssignedTo}
+              options={user}
+              isClearable
+              isSearchable
+              onChange={hangleSelectChangeAssignedTo}
+            />
+            
+          </div>
 
           <button
             type="submit"

@@ -48,6 +48,7 @@ class TaskController extends Controller
             'priority' => 'required|in:Low,Medium,High', // Use the 'in' rule to validate priority values
             'status' => 'required|in:New,In_progress,Completed', // Use the 'in' rule to validate status values
             'comment' => 'nullable|string',
+            'reply' => 'nullable|string',
             'due_date' => 'nullable|date|after:today',
             'creator_user_id' => $user->id,
             'assigned_user_id' => 'required|exists:users,id',
@@ -77,6 +78,7 @@ class TaskController extends Controller
             'priority' => 'required|in:Low,Medium,High',
             'status' => 'required|in:New,In_progress,Done',
             'comment' => 'nullable|string',
+            'reply' => 'nullable|string',
             'due_date' => 'nullable|date',
             'creator_user_id' => 'required|exists:users,id',
             'assigned_user_id' => 'required|exists:users,id',

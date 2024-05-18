@@ -18,6 +18,7 @@ import Allproject from './views/project/Allproject'
 import Select from './views/project/Select'
 import EditProject from './views/project/Edit' 
 import AddProject from './views/project/Add' 
+import SelectUser from './views/task/SelectUser'
 
 
 
@@ -33,7 +34,8 @@ function Router() {
             {path: '/edituser/:userId', element: <Edituser />},
 
             {path:'/task', element: <Alltask />},
-            {path:'/task/add/:projectId', element: <Addtask />},
+            {path:'/task/add/:taskId', element: <Addtask />},
+            {path:'/task/selectuser', element: <SelectUser />},
 
             {path:'/project', element: <Allproject />},
             {path:'/project/:projectId', element: <Select />},

@@ -42,4 +42,25 @@ class UserController extends Controller
         return response()->json(null, 204);
     }
 
+    public function userall()
+    {
+        $users = User::all(['name', 'email', 'id']);
+
+        $formattedUsers = $users->map(function ($user) {
+            return [
+                'value' => $user->id,
+                'label' => $user->name . ' (' . $user->email . ')'
+            ];
+        });
+
+        return response()->json($formattedUsers);
+    }
+
+    public function userselect($id)
+    {
+        $users = User::where('id', $id)->get(['name', 'email', 'id']);
+        return response()->json($users);
+    }
+
+
 }

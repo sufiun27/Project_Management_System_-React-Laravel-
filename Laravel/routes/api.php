@@ -52,7 +52,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/{id}', [UserController::class, 'show'])->name('show');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('destroy');
+//    Route::get('/userall', [UserController::class, 'userall'])->name('userall');
+//    Route::get('/userselect/{id}', [UserController::class, 'userselect'])->name('userselect');
 });
+
+Route::get('/userall', [UserController::class, 'userall'])->name('userall');
+Route::get('/userselect/{id}', [UserController::class, 'userselect'])->name('userselect');
 
 
 
