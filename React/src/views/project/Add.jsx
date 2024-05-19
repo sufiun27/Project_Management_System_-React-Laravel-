@@ -10,8 +10,8 @@ function Add() {
   const [project, setProject] = useState({
     name: "",
     description: "",
-    status: "",
-    priority: "",
+    status: "New",
+    priority: "Medium",
     due_date: "",
     creator_user_id: "",
     creator_name: "",
@@ -41,6 +41,17 @@ function Add() {
           console.log(response.data);
           setProject(response.data.project);
           setNotification(response.data.message)
+          setProject({
+            name: "",
+            description: "",
+            status: "New",
+            priority: "Medium",
+            due_date: "",
+            creator_user_id: "",
+            creator_name: "",
+            created_at: "",
+            total_task: "",
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -119,7 +130,7 @@ function Add() {
               <option value="New" className="bg-blue-500">
                 New
               </option>
-              <option value="In_progress" className="bg-yellow-500">
+              <option value="In_Progress" className="bg-yellow-500">
                 In Progress
               </option>
               <option value="Completed" className="bg-green-500">
@@ -152,7 +163,7 @@ function Add() {
               <option value="High" className="bg-red-500">
                 High
               </option>
-              <option selected value="Medium" className="bg-yellow-500">
+              <option value="Medium" className="bg-yellow-500">
                 Medium
               </option>
               <option value="Low" className="bg-green-500">

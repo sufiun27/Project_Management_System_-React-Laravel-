@@ -16,7 +16,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $tasks = Project::paginate(10);
+        $tasks = Project::orderBy('created_at', 'desc')->paginate(10);
         return ProjectResource::collection($tasks);
     }
 
@@ -36,7 +36,7 @@ class ProjectController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'status' => 'required|in:New,In_progress,Completed',
+            'status' => 'required|in:New,In_Progress,Completed',
             'priority' => 'required|in:Low,Medium,High',
             'due_date' => 'nullable|date|after:today',
         ]);
@@ -90,7 +90,7 @@ class ProjectController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-            'status' => 'required|in:New,In_progress,Completed',
+            'status' => 'required|in:New,In_Progress,Completed',
             'priority' => 'required|in:Low,Medium,High',
             'due_date' => 'nullable|date|after:today',
         ]);

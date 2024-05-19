@@ -1,5 +1,5 @@
-import { createContext, useContext, useState } from "react";
-
+import { createContext, useContext, useState, useEffect } from "react";
+import axiosClient from "../axios-clint";
 const StateContext = createContext({
     user: {},
     token: null,
@@ -15,14 +15,27 @@ export const ContextProvider = ({children}) => {
     const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
     const [notification, _setNotification] = useState('');
 
-    const setUser = (data) => {
-        _setUser(data)
-        if (data) {
-          localStorage.setItem('USER', data.name);
-        } else {
-          localStorage.removeItem('USER');
-        }
-    }
+    useEffect(()=>{
+        if (token) {
+            axiosClient
+              .get('/authuser')
+              .then((data) => {
+                _setUser(data.data.data);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+    },[])
+    const setUser = () => {}
+    // const setUser = (data) => {
+    //     _setUser(data)
+    //     if (data) {
+    //       localStorage.setItem('USER', data.name);
+    //     } else {
+    //       localStorage.removeItem('USER');
+    //     }
+    // }
 
     const setToken = (token) => {
         _setToken(token)

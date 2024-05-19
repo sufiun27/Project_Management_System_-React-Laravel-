@@ -3,23 +3,27 @@ import axiosClient from "../../axios-clint";
 import { useParams, useNavigate } from "react-router-dom";
 import {useStateContext} from '../../context/ContextProvider';
 import Select from "react-select";
+import { ContextProvider } from "../../context/ContextProvider";
 
 function Add() {
+  const {user} = useStateContext();
+  const currentUserId = user.id;
   const { projectId } = useParams();
   const [project, setProject] = useState({});
   const {setNotification, notification} = useStateContext();
   const [errors, setErrors] = useState(null)
-  const [user, setUser] = useState({
+  const [users, setUsers] = useState({
     value: "",
     label: "",
   });
   const [searchUser, setSearchUser] = useState("");
  
   const [task, setTask] = useState({
+    project_id: projectId,
     name: "",
     description: "",
-    status: "",
-    priority: "",
+    status: "New",
+    priority: "Medium",
     due_date: "",
     creator_user_id: "",
     creator_name: "",
@@ -40,15 +44,15 @@ function Add() {
       [name]: value,
     }));
   };
+
   const handleSubmitChange = (e) => {
     e.preventDefault();
-    updateTask();
-    
+    storeTask();
   };
 
   useEffect(() => {
     getProject();
-    getUser();
+    getUsers();
   }, []);
 
   const getProject = () => {
@@ -63,11 +67,11 @@ function Add() {
       });
   }
 
-  const getUser = () => {
+  const getUsers = () => {
     axiosClient
       .get(`/userall`)
       .then((response) => {
-        setUser(response.data);
+        setUsers(response.data);
        // console.log(user);
       })
       .catch((err) => {
@@ -76,11 +80,16 @@ function Add() {
   }
 
   useEffect(() => {
-    if (user.length > 0) {
-        const defaultUser = user.find(user => user.value === task.creator_user_id);
+    if (users.length > 0) {
+        const defaultUser = users.find(user => user.value === currentUserId);
         setSelectedOptionCreatedBy(defaultUser);
+       
+        setTask((prevtask) => ({
+          ...prevtask,
+          ["creator_user_id"]: currentUserId,
+        }));
     }
-}, [user]);
+}, [users]);
 
   const hangleSelectChangeCreatedBy = (selectedOption) => {
     setSelectedOptionCreatedBy(selectedOption);
@@ -92,11 +101,11 @@ function Add() {
   }
 
   useEffect(() => {
-    if (user.length > 0) {
-        const defaultUser = user.find(user => user.value === task.assigned_user_id);
+    if (users.length > 0) {
+        const defaultUser = users.find(user => user.value === task.assigned_user_id);
         setSelectedOptionAssignedTo(defaultUser);
     }
-}, [user]);
+}, [users]);
 
   const hangleSelectChangeAssignedTo = (selectedOption) => {
     setSelectedOptionAssignedTo(selectedOption);
@@ -107,27 +116,32 @@ function Add() {
   //  console.log(`Option selected:`, selectedOption);
   }
 
-
-
-  
- 
-  const updateTask = () => { 
-    
+  const storeTask = () => { 
         console.log(task);
         axiosClient
-        .put(`/tasks/${taskId}`, task)
-        .then((response) => {
-          console.log(response.data);
-          setTask(response.data.task);
-          setNotification(response.data.message)
-        })
-        .catch((err) => {
-          console.log(err);
-          const response = err.response;
-          if (response && response.status === 422) {
-            setErrors(response.data.errors)
-          }
-        });
+          .post("/tasks", task)
+          .then((response) => {
+            console.log(response.data);
+            setNotification(response.data.message)
+            setTask({
+              project_id: projectId,
+              name: "",
+              description: "",
+              status: "",
+              priority: "",
+              due_date: "",
+              creator_user_id: "",
+              creator_name: "",
+              created_at: "",
+              assigned_user_name: "",
+              comment: "",
+              reply: "",
+            });
+          })
+          .catch((error) => {
+            console.log(error.response.data.errors);
+            setErrors(error.response.data.errors)
+          });
   };
   
   const navigate = useNavigate();
@@ -228,7 +242,7 @@ function Add() {
               <option value="New" className="bg-blue-500">
                 New
               </option>
-              <option value="In_progress" className="bg-yellow-500">
+              <option value="In_Progress" className="bg-yellow-500">
                 In Progress
               </option>
               <option value="Completed" className="bg-green-500">
@@ -330,7 +344,7 @@ function Add() {
 
             <Select
               value={selectedOptionCreatedBy}
-              options={user}
+              options={users}
               isClearable
               isSearchable
               onChange={hangleSelectChangeCreatedBy}
@@ -348,7 +362,7 @@ function Add() {
 
             <Select
               value={selectedOptionAssignedTo}
-              options={user}
+              options={users}
               isClearable
               isSearchable
               onChange={hangleSelectChangeAssignedTo}

@@ -160,7 +160,7 @@ function Edit() {
               <option value="New" className="bg-blue-500">
                 New
               </option>
-              <option value="In_progress" className="bg-yellow-500">
+              <option value="In_Progress" className="bg-yellow-500">
                 In Progress
               </option>
               <option value="Completed" className="bg-green-500">
