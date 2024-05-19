@@ -76,7 +76,7 @@ class TaskController extends Controller
             'name' => 'required',
             'description' => 'required',
             'priority' => 'required|in:Low,Medium,High',
-            'status' => 'required|in:New,In_progress,Done',
+            'status' => 'required|in:New,In_Progress,Completed',
             'comment' => 'nullable|string',
             'reply' => 'nullable|string',
             'due_date' => 'nullable|date',
@@ -84,8 +84,19 @@ class TaskController extends Controller
             'assigned_user_id' => 'required|exists:users,id',
         ]);
         $task = Task::find($id);
-        $task->update($request->all());
-        return new TaskResource($task);
+        $task->name = $request->name;
+        $task->description = $request->description;
+        $task->priority = $request->priority;
+        $task->status = $request->status;
+        $task->comment = $request->comment;
+        $task->reply = $request->reply;
+        $task->due_date = $request->due_date;
+        $task->creator_user_id = $request->creator_user_id;
+        $task->assigned_user_id = $request->assigned_user_id;
+        $task->save();
+        return [
+            'task' => new TaskResource($task),
+            'message' => 'Task updated successfully'];
     }
 
     /**

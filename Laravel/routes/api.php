@@ -58,6 +58,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/userall', [UserController::class, 'userall'])->name('userall');
 Route::get('/userselect/{id}', [UserController::class, 'userselect'])->name('userselect');
+Route::get('/authuser', [UserController::class, 'authuser'])->name('authuser');
+
 
 
 

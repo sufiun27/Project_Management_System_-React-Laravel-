@@ -149,7 +149,7 @@ export function Table({tdata, meta, onPageChange}) {
 
 
                           <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium">
-                            <Link to={`/project/${tdata.id}`} className="text-gray-700">
+                            <Link to={`/task/edit/${tdata.id}`} className="text-gray-700">
                                 Select
                             </Link>
                           </td>

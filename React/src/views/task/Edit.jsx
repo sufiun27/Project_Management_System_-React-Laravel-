@@ -4,9 +4,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import {useStateContext} from '../../context/ContextProvider';
 import Select from "react-select";
 
-function Add() {
+function Edit() {
   const { projectId } = useParams();
-  const [project, setProject] = useState({});
   const {setNotification, notification} = useStateContext();
   const [errors, setErrors] = useState(null)
   const [user, setUser] = useState({
@@ -47,16 +46,16 @@ function Add() {
   };
 
   useEffect(() => {
-    getProject();
+    getTask();
     getUser();
   }, []);
 
-  const getProject = () => {
+  const getTask = () => {
     axiosClient
-      .get(`/projects/${projectId}`)
+      .get(`/tasks/${taskId}`)
       .then((response) => {
-        console.log(response.data);
-        setProject(response.data.project);
+        //console.log(response);
+        setTask(response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -152,7 +151,6 @@ function Add() {
     {/* <pre>{JSON.stringify(task)}</pre> */}
     
     {/* <h1>{taskId}</h1> */}
-    <div><h4>Add Task on project : {project.name}</h4></div>
     <div className="flex justify-end">
           <button
             type="button"
@@ -372,4 +370,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default Edit;
