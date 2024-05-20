@@ -61,7 +61,7 @@ const menuItems = [
               />
             </svg>
           </span>
-          <span className="font-bold">React Laravel CRUD</span>
+          <span className="font-bold">Project Management System</span>
         </div>
         <div className="hidden lg:block">
           <ul className="inline-flex space-x-8">
