@@ -39,6 +39,9 @@ This project management system utilizes React for the frontend and Laravel for t
    
 ### Screenshots
 - **Login Page**
+<br>
+
+
 ![image](./readmeimg/login.png)
 - **Register Page**
 ![image](./readmeimg/registration.png)
