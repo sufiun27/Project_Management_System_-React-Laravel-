@@ -4,7 +4,9 @@ import {useStateContext} from "../../context/ContextProvider.jsx";
 import { Link } from 'react-router-dom';
 
 
+
 export function Table({tdata, meta, onPageChange}) {
+  
     return (
       <>
         <section className="mx-auto w-full max-w-7xl px-4 py-4">
@@ -24,6 +26,9 @@ export function Table({tdata, meta, onPageChange}) {
               </Link>
             </div>
           </div>
+         
+          
+        
           <div className="mt-6 flex flex-col">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -179,7 +184,22 @@ function Allproject() {
     const [projects, setProjects] = useState([]);
     const [meta, setMeta] = useState({});
 
+    const [search, setSearch] = useState("");
+
     useEffect(()=>{getProjects();},[])
+    useEffect(()=>{getSearchProjects(search);},[search])
+
+    const getSearchProjects = (search)=>{
+      console.log(search);
+        axiosClient.get(`/projects/search/${search}`)
+        .then((data)=>{
+            console.log(data);
+            setProjects(data.data.data);
+            setMeta(data.data.meta);
+        }).catch((error)=>{
+            console.log(error);
+        })
+    }
 
     const getProjects = ()=>{
         axiosClient.get('/projects')
@@ -204,7 +224,19 @@ function Allproject() {
 
     return (
         <div>
-          { projects !== null && projects.length > 0 && meta !== null ? <Table tdata={projects} meta={meta} onPageChange={onPageChange} /> : <div className="text-center">Loding...</div>}
+          
+          <div className='flex justify-center'>
+          <div className="w-full md:w-1/3">
+            <input
+              className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              type="email"
+              placeholder="Search : id/Title"
+              onChange={(e) => setSearch(e.target.value)}
+            />{search}
+          </div>
+          </div>
+          { projects.length === 0 ? <p>No data Found..</p> : ''}
+          { projects !== null && projects.length > 0 && meta !== null ? <Table tdata={projects} meta={meta} search={search} setSearch={setSearch} onPageChange={onPageChange} /> : <div className="text-center">Loding...</div>}
         </div>
 
     )

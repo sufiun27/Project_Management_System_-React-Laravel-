@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-clint";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {useStateContext} from '../../context/ContextProvider';
 import Select from "react-select";
 import { ContextProvider } from "../../context/ContextProvider";
@@ -145,19 +145,7 @@ function Add() {
   };
   
   const navigate = useNavigate();
-  const handleDelete = () => {
-    axiosClient
-      .delete(`/tasks/${taskId}`)
-      .then((response) => {
-        console.log(response.data);
-        setNotification(response.data.message)
-        navigate("/task");
 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
   
   
   return (
@@ -166,16 +154,18 @@ function Add() {
     {/* <pre>{JSON.stringify(task)}</pre> */}
     
     {/* <h1>{taskId}</h1> */}
-    <div><h4>Add Task on project : {project.name}</h4></div>
-    <div className="flex justify-end">
-          <button
-            type="button"
-            className="mx-10 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-          onClick={handleDelete}
+    <div></div>
+
+    <div className="flex justify-start">
+          <Link
+            className="mx-10 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+          to={`/project/${projectId}`}
           >
-            Delete
-          </button>
-          </div>
+            Back
+          </Link>
+          <h4>Project Title : {project.name}</h4>
+      </div>
+    
        <div className='bg-red-100'>
               {errors &&
                 <div className="alert">

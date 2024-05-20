@@ -151,7 +151,7 @@ function Edit() {
     {/* <pre>{JSON.stringify(task)}</pre> */}
     
     {/* <h1>{taskId}</h1> */}
-    <div className="flex justify-end">
+        <div className="flex justify-end">
           <button
             type="button"
             className="mx-10 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
@@ -159,7 +159,7 @@ function Edit() {
           >
             Delete
           </button>
-          </div>
+        </div>
        <div className='bg-red-100'>
               {errors &&
                 <div className="alert">

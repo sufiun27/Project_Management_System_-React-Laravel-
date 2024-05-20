@@ -10,13 +10,15 @@ const menuItems = [
     name: 'Home',
     href: '/users',
   },
-  {
-    name: 'Task',
-    href: '/task',
-  },
+  
   {
     name: 'Project',
     href: '/project',
+  },
+
+  {
+    name: 'Task',
+    href: '/task',
   },
 ]
 

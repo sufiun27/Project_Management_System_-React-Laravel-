@@ -24,7 +24,10 @@ class Project extends Model
     }
     public function getTotalTasksAttribute()
     {
-        return $this->tasks->count();
+        $total = $this->tasks->count();
+        $total_completed = $this->tasks->where('status', 'Completed')->count();
+        $return = $total. '/' .$total_completed ;
+        return $return;
     }
 
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-clint";
-
+import { Link } from "react-router-dom";
 import {useStateContext} from '../../context/ContextProvider';
 
 function Add() {
@@ -64,6 +64,15 @@ function Add() {
   
   return (
     <>
+      <div className="flex justify-start">
+          <Link
+            className="mx-10 rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+          to="/project"
+          >
+            Back
+          </Link>
+      </div>
+
        <div className='bg-red-100'>
               {errors &&
                 <div className="alert">

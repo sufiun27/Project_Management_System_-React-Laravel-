@@ -23,6 +23,13 @@ class TaskController extends Controller
 
     }
 
+    public function searchtask($search){
+        $tasks = Task::where('name', 'like', '%'.$search.'%')
+                            ->orWhere('id', 'like', '%'.$search.'%')
+                            ->paginate(10);
+        return TaskResource::collection($tasks);
+    }
+
     public function userTasks($id)
     {
         $tasks = Task::where('assigned_user_id', $id)->get();

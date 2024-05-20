@@ -153,7 +153,7 @@ export function Table({tdata, meta, onPageChange}) {
 
 
                           <td className="whitespace-nowrap px-4 py-4 text-right text-sm font-medium">
-                            <Link to={`/project/${tdata.id}`} className="text-gray-700">
+                            <Link to={`/task/edit/${tdata.id}`} className="text-gray-700">
                                 Select
                             </Link>
                           </td>
@@ -214,8 +214,34 @@ function Alltask() {
           .catch(error => console.error('Error fetching data:', error));
       };
 
+      const [search, setSearch] = useState("");
+      useEffect(()=>{getSearchProjects(search);},[search])
+
+      const getSearchProjects = (search)=>{
+        console.log(search);
+          axiosClient.get(`/tasks/search/${search}`)
+          .then((data)=>{
+              console.log(data);
+              setTasks(data.data.data);
+              setMeta(data.data.meta);
+          }).catch((error)=>{
+              console.log(error);
+          })
+      }
+
     return (
-        <div>
+        <div> 
+          <div className='flex justify-center'>
+          <div className="w-full md:w-1/3 ">
+            <input
+              className="flex h-10 w-full rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              type="email"
+              placeholder="Search : id/Title"
+              onChange={(e) => setSearch(e.target.value)}
+            />{search}
+          </div>
+          </div>
+          { tasks.length === 0 ? <p>No data Found..</p> : ''}
             { tasks.length > 0 ? <Table tdata={tasks} meta={meta} onPageChange={onPageChange} /> : <h1>Loading...</h1>}
         </div>
 

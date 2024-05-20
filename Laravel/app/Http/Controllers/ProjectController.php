@@ -20,6 +20,13 @@ class ProjectController extends Controller
         return ProjectResource::collection($tasks);
     }
 
+    public function searchproject($search){
+        $projects = Project::where('name', 'like', '%'.$search.'%')
+                            ->orWhere('id', 'like', '%'.$search.'%')
+                            ->paginate(10);
+        return ProjectResource::collection($projects);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
