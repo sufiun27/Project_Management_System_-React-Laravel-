@@ -10,6 +10,7 @@ This project management system utilizes React for the frontend and Laravel for t
   - Each project can have multiple tasks.
   - Tasks can be assigned to different users.
   - The project list displays the total number of tasks and the number of completed tasks.
+  - User can search project & Task also enable pagination and error handling properly for fast and smooth user experience.
 
 ## Technical Details
 
@@ -37,6 +38,23 @@ This project management system utilizes React for the frontend and Laravel for t
   
    
 ### Screenshots
+- **Login Page**
 ![image](./readmeimg/login.png)
+- **Register Page**
+![image](./readmeimg/registration.png)
+- **Dashboard**
+![image](./readmeimg/employee.png)
+- **Project Page**
+![image](./readmeimg/projects.png)
+- **Add New Peoject**
+![image](./readmeimg/addproject.png)
+- **Task Under a Project**
+![image](./readmeimg/task_project.png)
+- **Add New Task**
+![image](./readmeimg/addproject.png)
+- **Edit Task**
+![image](./readmeimg/edit_task.png)
+- **Task**
+![image](./readmeimg/tasks.png)
 
 ```  
