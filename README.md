@@ -23,16 +23,16 @@ This project management system utilizes React for the frontend and Laravel for t
 - **Data Transfer**: Uses Laravel's Model Resource for API communication.
 
 ## Setup Instructions
- --clone the repository
+ - clone the repository
 ### Frontend (React)
- --cd into the frontend react directory
-    --run `npm install` to install dependencies
-    --run `npm start` to start the development server
+ - cd into the frontend react directory
+    - run `npm install` to install dependencies
+    - run `npm start` to start the development server
 ### Backend (Laravel)
- --cd into the backend laravel directory
-    --run `composer install` to install dependencies
-    --run `php artisan migrate` to migrate the database
-    --run `php artisan db:seed` to seed the database
-    --run `php artisan serve` to start the Laravel server
+ - cd into the backend laravel directory
+    - run `composer install` to install dependencies
+    - run `php artisan migrate` to migrate the database
+    - run `php artisan db:seed` to seed the database
+    - run `php artisan serve` to start the Laravel server
 ```    
    
