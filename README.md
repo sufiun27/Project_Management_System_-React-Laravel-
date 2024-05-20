@@ -34,7 +34,9 @@ This project management system utilizes React for the frontend and Laravel for t
     - run `php artisan migrate` to migrate the database
     - run `php artisan db:seed` to seed the database
     - run `php artisan serve` to start the Laravel server
-```    
+  
    
 ### Screenshots
 ![image](./readmeimg/login.png)
+
+```  
