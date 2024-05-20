@@ -44,20 +44,36 @@ This project management system utilizes React for the frontend and Laravel for t
 
 ![image](./readmeimg/login.png)
 - **Register Page**
+<br>
+
 ![image](./readmeimg/registration.png)
 - **Dashboard**
+<br>
+
 ![image](./readmeimg/employee.png)
 - **Project Page**
+<br>
+
 ![image](./readmeimg/projects.png)
 - **Add New Peoject**
+<br>
+
 ![image](./readmeimg/addproject.png)
 - **Task Under a Project**
+<br>
+
 ![image](./readmeimg/task_project.png)
 - **Add New Task**
+<br>
+
 ![image](./readmeimg/addproject.png)
 - **Edit Task**
+<br>
+
 ![image](./readmeimg/edit_task.png)
 - **Task**
+<br>
+
 ![image](./readmeimg/tasks.png)
 
 ```  
