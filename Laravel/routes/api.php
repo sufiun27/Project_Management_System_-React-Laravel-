@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('tasks', TaskController::class);
     Route::get('/tasks/search/{search}', [TaskController::class, 'searchtask']);
 /// Projects ////////////////////////
+    Route::put('/projects/priorityupdate/{id}', [ProjectController::class, 'priorityupdate']);
     Route::get('/projects/search/{search}', [ProjectController::class, 'searchproject']);
     Route::get('/projects/showTasks/{id}', [ProjectController::class, 'showTasks']);
     Route::resource('projects', ProjectController::class);

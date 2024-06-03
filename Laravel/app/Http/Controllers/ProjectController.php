@@ -92,6 +92,21 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    public function priorityupdate(Request $request, $id)
+    {
+        $request->validate([
+            'priority' => 'required|in:Low,Medium,High',
+        ]);
+        $project = Project::find($id);
+        $project->priority=$request->priority;
+        $project->save();
+
+        return [
+            'project' => new ProjectResource($project),
+            'message' => 'Project priority updated successfully'
+        ];
+
+    }
     public function update(Request $request, Project $project)
     {
         $request->validate([

@@ -2,11 +2,25 @@ import {useEffect, useState}from 'react'
 import axiosClient from '../../axios-clint';
 import {useStateContext} from "../../context/ContextProvider.jsx";
 import { Link } from 'react-router-dom';
+import { data } from 'autoprefixer';
 
 
 
 export function Table({tdata, meta, onPageChange}) {
-  
+
+  function handlePriorityChange(newPriority, id) {
+    console.log(newPriority);
+    console.log(id);
+    const data = {priority: newPriority}
+    axiosClient.put(`/projects/priorityupdate/${id}`, data)
+        .then((data)=>{
+            console.log(data);
+            
+        }).catch((error)=>{
+            console.log(error);
+        })
+  }
+
     return (
       <>
         <section className="mx-auto w-full max-w-7xl px-4 py-4">
@@ -114,17 +128,20 @@ export function Table({tdata, meta, onPageChange}) {
                           </td>
 
                           <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
-                            <button
-                                type="button"
-                                className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
-                                    tdata.priority === 'high' || tdata.priority === 'High' ? ' bg-red-500' : 
-                                    tdata.priority === 'medium' || tdata.priority === 'Medium' ? ' bg-green-700' : 
+                            <select
+                                className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${
+                                    tdata.priority === 'high' || tdata.priority === 'High' ? 'bg-red-500' : 
+                                    tdata.priority === 'medium' || tdata.priority === 'Medium' ? 'bg-green-700' : 
                                     tdata.priority === 'low' || tdata.priority === 'Low' ? 'bg-blue-500' : ''
                                 }`}
-                                >
-                                {tdata.priority}
-                            </button>
-                          </td>
+                                value={tdata.priority}
+                                onChange={ (e) => handlePriorityChange(e.target.value, tdata.id) }
+                            >
+                                <option value="High" className="bg-red-500 text-white">High</option>
+                                <option value="Medium" className="bg-green-700 text-white">Medium</option>
+                                <option value="Low" className="bg-blue-500 text-white">Low</option>
+                            </select>
+                        </td>
 
                           <td className="whitespace-nowrap px-4 py-4 text-sm text-wrap text-gray-700">
                             {tdata.due_date}
