@@ -2,6 +2,7 @@
 
 use App\Jobs\SendMailJob;
 use App\Mail\UserRegistrationMail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -59,8 +60,11 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('user-registration-email', function () {
-    SendMailJob::dispatch();
-    dd('Email was sent') ;
+//    SendMailJob::dispatch();
+//    dd('Email was sent') ;
+
+    $user = User::latest()->first();
+    dd($user->email);
 });
 
 

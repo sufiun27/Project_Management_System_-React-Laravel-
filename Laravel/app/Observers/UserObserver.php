@@ -12,7 +12,9 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        $email= 'alu@vorta.com';
+        $user = User::latest()->first();
+//        dd($user->email);
+        $email= $user->email;
         SendMailJob::dispatch($email);
     }
 

@@ -11,6 +11,7 @@
     <h1>Welcome to our site</h1>
      <p>Thank you for signing up. We are happy to have you here.</p>
      <p>Best regards : {{$email}}</p>
+    <p>Your account created successfully </p>
 
 </body>
 </html>
