@@ -3,6 +3,8 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import DefaultLayout from './components/DefaultLayout'
 import GuestLayout from './components/GuestLayout'
 
+
+
 import Login from './views/Login'
 import Signup from './views/Signup'
 import NotFound from './views/NotFound'
@@ -28,6 +30,7 @@ function Router() {
     const router = createBrowserRouter([
 
         {path:'/', element: <DefaultLayout />, children:[
+            
             {path:'/', element: <Navigate to='/users' />},
             {path:'/users', element: <Users/>},
             {path:'/logout', element: <Logout />},
@@ -44,14 +47,19 @@ function Router() {
             {path:'/project/edit/:projectId', element: <EditProject />},
             {path:'/project/add', element: <AddProject />},
             
+           
 
         ]},
 
 
         {path:'/', element: <GuestLayout />, children:[
+            
             {path:'/login', element: <Login />},
             {path:'/signup', element: <Signup />},
+            
         ]},
+
+        
 
         
         {path:'*', element: <NotFound />},

@@ -1,6 +1,9 @@
 <?php
 
+use App\Jobs\SendMailJob;
+use App\Mail\UserRegistrationMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AuthController;
@@ -27,23 +30,17 @@ Route::post('/signup', [AuthController::class, 'signup'])->name('signup');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
-
-////////////////////////
-/// Task
-////////////////////////
-Route::get('/tasks/userassinedtask/{id}', [TaskController::class, 'userAssinedTasks']);
-Route::get('/tasks/usertask/{id}', [TaskController::class, 'userTasks']);
-Route::resource('tasks', TaskController::class);
-Route::get('/tasks/search/{search}', [TaskController::class, 'searchtask']);
-
-
-////////////////////////
-/// Projects
-////////////////////////
 Route::middleware('auth:sanctum')->group(function () {
+
+/// Task ////////////////////////
+    Route::get('/tasks/userassinedtask/{id}', [TaskController::class, 'userAssinedTasks']);
+    Route::get('/tasks/usertask/{id}', [TaskController::class, 'userTasks']);
+    Route::resource('tasks', TaskController::class);
+    Route::get('/tasks/search/{search}', [TaskController::class, 'searchtask']);
+/// Projects ////////////////////////
     Route::get('/projects/search/{search}', [ProjectController::class, 'searchproject']);
-Route::get('/projects/showTasks/{id}', [ProjectController::class, 'showTasks']);
-Route::resource('projects', ProjectController::class);
+    Route::get('/projects/showTasks/{id}', [ProjectController::class, 'showTasks']);
+    Route::resource('projects', ProjectController::class);
 });
 
 
@@ -55,15 +52,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/{id}', [UserController::class, 'show'])->name('show');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('update');
     Route::delete('/user/{id}', [UserController::class, 'destroy'])->name('destroy');
-//    Route::get('/userall', [UserController::class, 'userall'])->name('userall');
-//    Route::get('/userselect/{id}', [UserController::class, 'userselect'])->name('userselect');
+    Route::get('/userall', [UserController::class, 'userall'])->name('userall');
+    Route::get('/userselect/{id}', [UserController::class, 'userselect'])->name('userselect');
 
     Route::get('/authuser', [UserController::class, 'authuser'])->name('authuser');
 });
 
+Route::get('user-registration-email', function () {
+    SendMailJob::dispatch();
+    dd('Email was sent') ;
+});
 
-Route::get('/userall', [UserController::class, 'userall'])->name('userall');
-Route::get('/userselect/{id}', [UserController::class, 'userselect'])->name('userselect');
+
+
+
+
 
 
 

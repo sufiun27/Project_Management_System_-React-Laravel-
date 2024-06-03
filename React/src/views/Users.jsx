@@ -161,7 +161,7 @@ function Users() {
     const [users, setUsers] = useState([]);
     const [meta, setMeta] = useState();//{current_page: 1, last_page: 1, per_page: 1, total: 1}
     const [loading, setLoading] = useState(true);
-    const {user, token} = useStateContext();
+    const {user, token, notification} = useStateContext();
    
     
     useEffect(()=>{
@@ -198,8 +198,8 @@ function Users() {
 
     return (
         <>
-       
-        <hr />
+        {notification && <h1>{notification}</h1>}
+             <hr />
         
             {/* <UserTable users={users.data} /> */}
             <hr />
