@@ -14,11 +14,16 @@ export function Table({tdata, meta, onPageChange}) {
     const data = {priority: newPriority}
     axiosClient.put(`/projects/priorityupdate/${id}`, data)
         .then((data)=>{
-            console.log(data);
-            
+           
+           console.log(data);
+          
         }).catch((error)=>{
             console.log(error);
         })
+
+        
+
+        
   }
 
     return (
@@ -194,7 +199,7 @@ export function Table({tdata, meta, onPageChange}) {
 
 
 
-
+  
 
 
 function Allproject() {
@@ -223,7 +228,7 @@ function Allproject() {
         .then((data)=>{
             console.log(data);
             setProjects(data.data.data);
-            setMeta(data.data.meta);
+            setMeta(data.data.meta);            
         }).catch((error)=>{
             console.log(error);
         })
@@ -238,6 +243,8 @@ function Allproject() {
           })
           .catch(error => console.error('Error fetching data:', error));
       };
+
+      
 
     return (
         <div>
