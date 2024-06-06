@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export function Table({tdata, meta, onPageChange}) {
     return (
       <>
-        <section className="mx-auto w-full max-w-7xl px-4 py-4">
+        <section className="mx-auto w-full max-w-8xl px-4 py-4">
           <div className="flex flex-col space-y-4  md:flex-row md:items-center md:justify-between md:space-y-0">
             <div>
               <h2 className="text-lg font-semibold">Tasks</h2>
