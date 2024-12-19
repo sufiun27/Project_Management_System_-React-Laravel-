@@ -37,7 +37,10 @@ export default function Login() {
     <div className="flex justify-center items-center h-screen bg-green-50">
       <div className=" bg-green-100 p-20 rounded-xl ">
           <form className="" onSubmit={onSubmit}>
-            <p className="text-3xl font-bold underline mb-10">Login into your account</p>
+            <p className="text-3xl font-bold  mb-10">Project Management System</p>
+            <p className="">Login into your account</p>
+
+            <br />
 
             {message &&
               <div className="bg-red-200 text-red-700 p-2 rounded-md">
@@ -68,6 +71,8 @@ export default function Login() {
               </button>
             <p className="message">Not registered? <Link className="text-blue-400" to="/signup">Create an account</Link></p>
           </form>
+
+          
       </div>
     </div>
   )

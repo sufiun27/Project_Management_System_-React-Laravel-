@@ -8,6 +8,15 @@ use App\Http\Resources\UserResource;
 
 class UserController extends Controller
 {
+    public function apitest()
+    {
+        try {
+            $users = User::all(); // Ensure the `User` model is set up correctly
+            return response()->json($users, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     public function index()
     {
         $users = User::orderBy('created_at', 'desc')->paginate(10);

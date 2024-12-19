@@ -32,8 +32,9 @@ class TaskResource extends JsonResource
                 'creator_name' => $this->creator_name,
                 'assigned_user_id' => $this->assigned_user_id,
                 'assigned_user_name' => $this->assigned->name,
-                'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-                'updated_at' => $this->updated_at->format('Y-m-d H:i:s')
+                'created_at' => $this->created_at ? $this->created_at->format('Y-m-d') : null,
+                //'updated_at' => $this->updated_at->format('Y-m-d H:i:s')
+                'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d') : null,
 
         ];
     }

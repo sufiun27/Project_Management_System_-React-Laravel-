@@ -3,6 +3,7 @@ import { useStateContext } from '../context/ContextProvider'
 import { Navigate } from 'react-router-dom'
 import axiosClient from '../axios-clint';
 import Navbar from './Navbar';
+import Footer from '../views/Footer'
 
 function DefaultLayout() {
     const {user, token, setUser, setToken, notification, setNotification} = useStateContext();
@@ -24,7 +25,7 @@ function DefaultLayout() {
             {/* <div>Default layout</div> */}
             <Outlet />
             
-            
+            <Footer />
         </div>
     )
 }
